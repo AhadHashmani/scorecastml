@@ -74,6 +74,18 @@ class TestDataLoader:
     def test_season_label_present(self, raw_season):
         assert (raw_season["SEASON"] == "2023-24").all()
 
+    def test_force_synthetic_does_not_call_nba_api(self, monkeypatch, tmp_path):
+        import data.loader as loader
+
+        def boom(season):
+            raise AssertionError(f"nba_api was called for {season}")
+
+        monkeypatch.setattr(loader, "_load_from_nba_api", boom)
+        monkeypatch.setattr(loader, "CACHE_DIR", tmp_path)
+        df = loader.load_season("2023-24", force_synthetic=True)
+        assert (df["SOURCE"] == "synthetic").all()
+        assert list(tmp_path.glob("*.parquet"))
+
 
 # ── Feature engineering tests ─────────────────────────────────────────
 class TestFeatureEngineering:

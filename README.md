@@ -32,7 +32,7 @@ scorecastml/
 ## Quickstart
 
 ```bash
-git clone https://github.com/ahadhashmani/scorecastml
+git clone https://github.com/AhadHashmani/scorecastml
 cd scorecastml
 pip install -r requirements.txt
 
@@ -48,7 +48,8 @@ python main.py predict --home BOS --away MIA
 # List all 30 team abbreviations
 python main.py teams
 
-# Run tests
+# Run tests (GitHub Actions runs this on push and pull request).
+# The suite uses synthetic data and does not call the NBA API.
 python -m pytest tests/ -v
 ```
 
